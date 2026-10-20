@@ -17,16 +17,18 @@ diceGameRoutes.get('/heroes', (req, res) => {
 
 
 // Handle POST requests to start a battle
-diceGameRoutes.post('/battle/start', async (req, res) => { // <-- Note the 'async' here
+diceGameRoutes.post('/battle/start', async (req, res) => {
     const { heroId } = req.body;
 
     if (!heroId) {
         return res.status(400).json({ message: "Hero ID is required" });
     }
 
-    // Epic 2: Assign guest user ID and create a new run in the database
-    req.session.userId = 1;
-    req.session.runId = await createRun(req.session.userId);
+    // Epic 3: Use the logged-in user's ID, or fallback to 1 (Guest)
+    const currentUserId = req.session.userId || 1;
+    
+    // Create the run using the correct ID and save the runId to the session
+    req.session.runId = await createRun(currentUserId);
 
     const battleState = engine.startBattle(heroId);
 
