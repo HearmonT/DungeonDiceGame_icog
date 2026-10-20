@@ -2,6 +2,8 @@
 import express from 'express';
 import diceGameRoutes from './routes/diceGameRoutes.js';
 import session from 'express-session';
+import authRouter from './routes/auth.js';
+import meRouter from './routes/me.js';
 
 
 
@@ -21,6 +23,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use('/api/auth', authRouter);
+app.use('/api/auth/me', meRouter);
 // Mount the game API routes under /api.
 app.use('/api', diceGameRoutes);
 

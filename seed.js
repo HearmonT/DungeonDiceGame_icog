@@ -29,6 +29,19 @@ async function seedDatabase() {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+    // ---> ADD THIS NEW BLOCK RIGHT HERE <---
+    console.log('Creating users table...');
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
     console.log('Clearing old data...');
     await db.exec('DELETE FROM heroes');
 
@@ -48,4 +61,3 @@ async function seedDatabase() {
 
 // Run the function and catch any errors
 seedDatabase().catch(err => console.error("Seeding failed:", err));
-
