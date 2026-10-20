@@ -1,6 +1,8 @@
 import express from 'express';
-import { heroes } from '../data/heroes.js';
+import { getAllHeroes } from '../db/heroes.js';
 import { createDiceGameEngine } from '../domain/diceGameEngine.js';
+
+const heroes = await getAllHeroes();
 
 // 1. Inject the heroes data into the engine
 const engine = createDiceGameEngine(heroes);
